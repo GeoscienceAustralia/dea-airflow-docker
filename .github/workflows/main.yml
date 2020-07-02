@@ -1,0 +1,27 @@
+name: GA Airflow Build and Push
+
+on:
+  push:
+    branches: [master]
+
+env:
+  ORG: geoscienceaustralia
+  IMAGE: airflow
+  TAG: 0.0.1
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Login to DockerHub
+      run: |
+        echo "${{ secrets.DockerPassword }}" | docker login -u "${{ secrets.DockerUser }}" --password-stdin
+
+
+    - name: Build Airflow image
+      run: |
+        docker build \
+          --tag    ${ORG}/${IMAGE}:${TAG} \
+          .
