@@ -7,7 +7,7 @@ on:
 env:
   ORG: geoscienceaustralia
   IMAGE: airflow
-  TAG: 0.0.1
+  TAG: latest
 
 jobs:
   build-and-push:
@@ -19,16 +19,26 @@ jobs:
       run: |
         echo "${{ secrets.DockerPassword }}" | docker login -u "${{ secrets.DockerUser }}" --password-stdin
 
+    - name: Extract repo tag
+      if: github.event_name == 'release'
+      run: >
+        echo ::set-env name=RELEASE_TAG::$(git describe --tags)
+
 
     - name: Build Airflow image
       run: |
         docker build \
-          --tag    ${ORG}/${IMAGE}:${TAG} \
+          --tag    ${ORG}/${IMAGE}:${TAG}
 
-    - name: Push to DockerHub
+    - name: Push latest to DockerHub
       run: |
         docker push ${ORG}/${IMAGE}:${TAG}
-        docker push ${ORG}/${IMAGE}:latest
+
+    - name: Tag a release
+      if: github.event_name == 'release'
+      run: |
+        docker tag ${ORG}/${IMAGE}:${TAG} ${ORG}/${IMAGE}:${RELEASE_TAG}
+        docker push ${ORG}/${IMAGE}:${RELEASE_TAG}
 
     - name: Trivy scan the image
       uses: aquasecurity/trivy-action@0.0.6
