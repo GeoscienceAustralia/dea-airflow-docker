@@ -28,8 +28,8 @@ jobs:
     - name: Build Airflow image
       run: |
         docker build \
-          --tag    ${ORG}/${IMAGE}:${TAG}
-
+        --tag  ${ORG}/${IMAGE}:${TAG} .
+        
     - name: Push latest to DockerHub
       run: |
         docker push ${ORG}/${IMAGE}:${TAG}
