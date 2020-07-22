@@ -29,7 +29,7 @@ jobs:
       run: |
         docker build \
         --tag  ${ORG}/${IMAGE}:${TAG} .
-        
+
     - name: Push latest to DockerHub
       run: |
         docker push ${ORG}/${IMAGE}:${TAG}
@@ -43,7 +43,7 @@ jobs:
     - name: Trivy scan the image
       uses: aquasecurity/trivy-action@0.0.6
       with:
-        image-ref: "${{ env.ORG }}/${{ env.IMAGE }}: ${{ env.TAG }}"
+        image-ref: "${{ env.ORG }}/${{ env.IMAGE }}:${{ env.TAG }}"
         format: "table"
         exit-code: "1"
         severity: "CRITICAL,HIGH"
