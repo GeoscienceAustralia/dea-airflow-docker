@@ -3,6 +3,10 @@ name: GA Airflow Build and Push
 on:
   push:
     branches: [master]
+  release:
+    release:
+    types:
+      - created
 
 env:
   ORG: geoscienceaustralia
