@@ -1,9 +1,10 @@
-
+![GA Airflow Build and Push](https://github.com/GeoscienceAustralia/dea-airflow-docker/workflows/GA%20Airflow%20Build%20and%20Push/badge.svg)
 # Overview
 Apache Airflow is a workflow tool.
 
 # Todo
-- Automate Docker image build and push
+- ~Automate Docker image build and push~
+- Make image secure
 
 # Important links
 - [Airflow Helm chart](https://github.com/helm/charts/blob/master/stable/airflow)
